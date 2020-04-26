@@ -40,7 +40,7 @@ class raspberrypi(sofabase):
             self.dataset.nativeDevices['device']={}
             self.log=log
             self.notify=notify
-            self.polltime=5
+            self.polltime=10
             self.loop=loop
             self.inuse=False
             
@@ -63,11 +63,11 @@ class raspberrypi(sofabase):
             try:
                 temp = os.popen("vcgencmd measure_temp").readline()
                 self.ok=True
-                return {"temp": int(temp.replace("temp=","")[:-5]) }
+                return int(temp.replace("temp=","")[:-5]) 
             except:
                 self.log.error('Error fetching temperature', exc_info=True)
                 self.ok=False
-                return {"temp": 0 }
+                return 0
             
         # Adapter Overlays that will be called from dataset
         async def addSmartDevice(self, path):
