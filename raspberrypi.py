@@ -5,8 +5,7 @@ import sys, os
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.join(os.path.dirname(__file__),'../../base'))
 
-from sofabase import sofabase
-from sofabase import adapterbase
+from sofabase import sofabase, adapterbase, configbase
 import devices
 
 import math
@@ -19,6 +18,7 @@ import copy
 import platform
 
 class raspberrypi(sofabase):
+
     
     class EndpointHealth(devices.EndpointHealth):
 
@@ -35,7 +35,8 @@ class raspberrypi(sofabase):
     
     class adapterProcess(adapterbase):
     
-        def __init__(self, log=None, loop=None, dataset=None, notify=None, request=None, **kwargs):
+        def __init__(self, log=None, loop=None, dataset=None, notify=None, request=None, config=None, **kwargs):
+            self.config=config
             self.dataset=dataset
             self.dataset.nativeDevices['device']={}
             self.log=log
