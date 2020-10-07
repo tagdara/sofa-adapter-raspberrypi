@@ -75,12 +75,15 @@ class raspberrypi(sofabase):
             
             #self.log.info('Path: %s' % path)
             try:
-                deviceid=path.split("/")[2]
-                nativeObject=self.dataset.nativeDevices['device'][deviceid]
-                device=devices.alexaDevice('raspberrypi/device/%s' % platform.uname()[1], nativeObject['name'], displayCategories=['TEMPERATURE_SENSOR'], adapter=self)
-                device.TemperatureSensor=raspberrypi.TemperatureSensor(device=device)
-                device.EndpointHealth=raspberrypi.EndpointHealth(device=device)
-                return self.dataset.newaddDevice(device)                    
+                device_id=path.split("/")[2]
+                device_type=path.split("/")[1]
+                endpointId="%s:%s:%s" % ("raspberrypi", "device", device_id)
+                if endpointId not in self.dataset.localDevices:  # localDevices/friendlyNam                
+                    nativeObject=self.dataset.nativeDevices['device'][device_id]
+                    device=devices.alexaDevice('raspberrypi/device/%s' % platform.uname()[1], nativeObject['name'], displayCategories=['TEMPERATURE_SENSOR'], adapter=self)
+                    device.TemperatureSensor=raspberrypi.TemperatureSensor(device=device)
+                    device.EndpointHealth=raspberrypi.EndpointHealth(device=device)
+                    return self.dataset.add_device(device)                    
 
             except:
                 self.log.error('Error defining smart device', exc_info=True)
