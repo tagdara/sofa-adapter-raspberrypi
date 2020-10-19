@@ -26,13 +26,18 @@ class raspberrypi(sofabase):
         def connectivity(self):
             return 'OK'
 
+
     class TemperatureSensor(devices.TemperatureSensor):
 
         @property            
         def temperature(self):
             return self.nativeObject['temperature']
+            
+        @property
+        def proactivelyReported(self):
+            return False
 
-    
+
     class adapterProcess(adapterbase):
     
         def __init__(self, log=None, loop=None, dataset=None, notify=None, request=None, config=None, **kwargs):
